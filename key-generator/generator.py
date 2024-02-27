@@ -6,6 +6,9 @@ from Crypto.PublicKey import RSA
 from Crypto.Cipher import AES
 
 
+KEY_SIZE = 4096
+
+
 def pad(data, block_size):
     padding_length = block_size - len(data) % block_size
     padding = bytes([padding_length]) * padding_length
@@ -13,7 +16,7 @@ def pad(data, block_size):
 
 
 def generate_keys(aes_key, pendrive_path):
-    key = RSA.generate(4096)
+    key = RSA.generate(KEY_SIZE)
     private_key_path = os.path.join(pendrive_path, "private_key")
     public_key_path = os.path.join(os.path.join(os.path.dirname(os.getcwd()), "public-rsa-key"), "public_key.pem")
 
