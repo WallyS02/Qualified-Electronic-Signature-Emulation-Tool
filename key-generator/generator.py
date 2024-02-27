@@ -18,7 +18,7 @@ def unpad(data):
 
 
 def generate_keys(aes_key, pendrive_path):
-    key = RSA.generate(2048)
+    key = RSA.generate(4096)
     private_key_path = os.path.join(pendrive_path, "private_key")
     public_key_path = os.path.join(os.path.join(os.path.dirname(os.getcwd()), "public-rsa-key"), "public_key.pem")
 
