@@ -12,11 +12,6 @@ def pad(data, block_size):
     return data + padding
 
 
-def unpad(data):
-    padding_length = data[-1]
-    return data[:-padding_length]
-
-
 def generate_keys(aes_key, pendrive_path):
     key = RSA.generate(4096)
     private_key_path = os.path.join(pendrive_path, "private_key")
