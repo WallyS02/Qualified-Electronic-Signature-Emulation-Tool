@@ -4,7 +4,7 @@
 - [x] add simple account management to app
 - [x] implement file signing
 - [ ] implement file sending
-- [ ] implement signature veryfing
+- [x] implement signature veryfing
 - [x] add encryption and decryption of files
 - [ ] prepare GUI
 - [ ] prepare report
