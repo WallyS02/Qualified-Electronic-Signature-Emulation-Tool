@@ -5,6 +5,6 @@
 - [x] implement file signing
 - [ ] implement file sending
 - [ ] implement signature veryfing
-- [ ] add encryption and decryption of files
+- [x] add encryption and decryption of files
 - [ ] prepare GUI
 - [ ] prepare report
