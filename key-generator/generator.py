@@ -1,4 +1,5 @@
 import base64
+import hashlib
 import sys
 import os
 from Crypto import Random
@@ -22,7 +23,7 @@ def generate_keys(aes_key, pendrive_path):
 
     with open(private_key_path, "wb") as private_key_file:
         iv = Random.new().read(AES.block_size)
-        cipher = AES.new(aes_key, AES.MODE_CBC, iv)
+        cipher = AES.new(hashlib.sha256(aes_key.encode()).digest(), AES.MODE_CBC, iv)
         ciphertext = cipher.encrypt(pad(key.export_key(format="PEM"), AES.block_size))
         private_key_file.write(base64.b64encode(iv + ciphertext))
 
@@ -35,7 +36,7 @@ def main():
         print("Usage: python generator.py aes_key pendrive_path")
         return "failure"
 
-    generate_keys(bytes(sys.argv[1], 'utf-8'), sys.argv[2])
+    generate_keys(sys.argv[1], sys.argv[2])
     return "success"
 
 

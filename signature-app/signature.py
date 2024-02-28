@@ -5,7 +5,7 @@ import os
 import xml.etree.ElementTree as ET
 from datetime import datetime
 
-from decryptor import decrypt_private_key
+from key_decryptor import decrypt_private_key
 
 
 def generate_signature(document_path, key_path, aes_key):

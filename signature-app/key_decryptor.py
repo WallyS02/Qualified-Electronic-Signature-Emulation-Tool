@@ -20,7 +20,7 @@ def decrypt_private_key(aes_key, key_path):
 
 def main():
     if len(sys.argv) != 3:
-        print("Usage: python decryptor.py aes_key key_path")
+        print("Usage: python key_decryptor.py aes_key key_path")
         return "failure"
 
     return decrypt_private_key(bytes(sys.argv[1], 'utf-8'), sys.argv[2])
