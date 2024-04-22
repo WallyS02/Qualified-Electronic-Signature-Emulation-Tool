@@ -14,10 +14,20 @@ class AppController(ctk.CTk, TkinterDnD.DnDWrapper):
         pass
     
     def login(self, username, password):
-        user_management.login(username, password)
+        if user_management.login(username, password):
+            self.show_frame(views.LoginSuccess)
+            self.after(2000, lambda: self.show_frame(views.HomePage))
+        else:
+            self.show_frame(views.LoginFail)
     
     def register(self, username, password, name, surname):
-        user_management.register(username, password, name, surname)
+        answer = user_management.register(username, password, name, surname)
+
+        if answer == 'Username is already taken':
+            self.show_frame(views.RegisterFail)
+        if answer == 'User registered successfully':
+            self.show_frame(views.RegisterSuccess)
+            self.after(2000, lambda: self.show_frame(views.MainMenu))
     
     def show_frame(self, cont):
         self.current_frame.pack_forget()
@@ -40,7 +50,7 @@ class AppController(ctk.CTk, TkinterDnD.DnDWrapper):
         self.geometry('%dx%d+%d+%d' % (AppController.WINDOW_WIDTH, AppController.WINDOW_HEIGHT, self.x_pos, self.y_pos))
         self.title("Electronic Signature Project")
 
-        ico = Image.open('./media/icon.png')
+        ico = Image.open('media/icon.png')
         photo = ImageTk.PhotoImage(ico)
         self.wm_iconphoto(False, photo)
         

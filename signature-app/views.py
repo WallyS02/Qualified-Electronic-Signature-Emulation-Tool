@@ -86,7 +86,7 @@ class RegisterPage(ctk.CTkFrame):
         password_entry = ctk.CTkEntry(master=box, width=400, height=50, justify='center', show="*")
         password_entry.pack(expand=False)
         
-        login_button = ctk.CTkButton(master=self, text="Login", command=lambda: controller.register(username_entry.get(), password_entry.get(), name_entry.get(), surname_entry.get()))
+        login_button = ctk.CTkButton(master=self, text="Register", command=lambda: controller.register(username_entry.get(), password_entry.get(), name_entry.get(), surname_entry.get()))
         login_button.pack(pady=10, padx=20, expand=True)
 
         back_button = ctk.CTkButton(master=self, text="Back", command=lambda: controller.show_frame(MainMenu))
@@ -96,18 +96,60 @@ class LoginSuccess(ctk.CTkFrame):
     def __init__(self, master: any, controller, **kwargs):
         super().__init__(master, **kwargs)
 
+        title = ctk.CTkLabel(master=self, text="Logged in successfully", font=("Didot", 26))
+        title.pack(pady=5, padx=10, fill="both", expand=False)
+
+        text = ctk.CTkLabel(master=self, text="You will be redirected shortly")
+        text.pack(expand=False)
+
 class LoginFail(ctk.CTkFrame):
     def __init__(self, master: any, controller, **kwargs):
         super().__init__(master, **kwargs)
+
+        title = ctk.CTkLabel(master=self, text="Login failed", font=("Didot", 26))
+        title.pack(pady=5, padx=10, fill="both", expand=False)
+
+        back_button = ctk.CTkButton(master=self, text="Back", command=lambda: controller.show_frame(LoginPage))
+        back_button.pack(pady=10, padx=20, expand=True)
 
 class RegisterSuccess(ctk.CTkFrame):
     def __init__(self, master: any, controller, **kwargs):
         super().__init__(master, **kwargs)
 
+        title = ctk.CTkLabel(master=self, text="Registered successfully", font=("Didot", 26))
+        title.pack(pady=5, padx=10, fill="both", expand=False)
+
+        text = ctk.CTkLabel(master=self, text="You can now log in")
+        text.pack(expand=False)
+
 class RegisterFail(ctk.CTkFrame):
     def __init__(self, master: any, controller, **kwargs):
         super().__init__(master, **kwargs)
 
+        title = ctk.CTkLabel(master=self, text="Could not register", font=("Didot", 26))
+        title.pack(pady=5, padx=10, fill="both", expand=False)
+
+        text = ctk.CTkLabel(master=self, text="Username already taken")
+        text.pack(expand=False)
+
+        back_button = ctk.CTkButton(master=self, text="Back", command=lambda: controller.show_frame(RegisterPage))
+        back_button.pack(pady=10, padx=20, expand=True)
+
 class HomePage(ctk.CTkFrame):
     def __init__(self, master: any, controller, **kwargs):
         super().__init__(master, **kwargs)
+
+        title = ctk.CTkLabel(master=self, text="App main menu", font=("Didot", 26))
+        title.pack(pady=5, padx=10, fill="both", expand=False)
+
+        box = ctk.CTkFrame(master=self)
+        box.pack(expand=True)
+        
+        sign_button = ctk.CTkButton(master=box, text="Sign a file", command=lambda: controller.temp())
+        sign_button.pack(pady=10, padx=20)
+
+        verify_button = ctk.CTkButton(master=box, text="Verify signature", command=lambda: controller.temp())
+        verify_button.pack(pady=10, padx=20)
+
+        back_button = ctk.CTkButton(master=box, text="Log out", command=lambda: controller.show_frame(MainMenu))
+        back_button.pack(pady=10, padx=20)
