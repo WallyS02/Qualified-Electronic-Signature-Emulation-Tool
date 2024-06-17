@@ -156,6 +156,12 @@ class HomePage(ctk.CTkFrame):
 
         rsa_decrypt_button = ctk.CTkButton(master=box, text="RSA decrypt", command=lambda: controller.show_frame(RSADecryptInputPin))
         rsa_decrypt_button.pack(pady=10, padx=20)
+
+        aes_encrypt_button = ctk.CTkButton(master=box, text="AES encrypt", command=lambda: controller.show_frame(AESEncryptInputPin))
+        aes_encrypt_button.pack(pady=10, padx=20)
+
+        aes_decrypt_button = ctk.CTkButton(master=box, text="AES decrypt", command=lambda: controller.show_frame(AESDecryptInputPin))
+        aes_decrypt_button.pack(pady=10, padx=20)
         
         back_button = ctk.CTkButton(master=box, text="Log out", command=lambda: controller.show_frame(MainMenu))
         back_button.pack(pady=10, padx=20)
@@ -213,6 +219,50 @@ class RSADecryptInputPin(ctk.CTkFrame):
         pin_entry.pack(expand=False)
 
         ok_button = ctk.CTkButton(master=box, text="Confirm", command=lambda: controller.rsa_decrypt(pin_entry.get()))
+        ok_button.pack(pady=10, padx=20)
+
+        back_button = ctk.CTkButton(master=self, text="Cancel", command=lambda: controller.show_frame(HomePage))
+        back_button.pack(pady=10, padx=20)
+
+class AESEncryptInputPin(ctk.CTkFrame):
+    def __init__(self, master: any, controller, **kwargs):
+        super().__init__(master, **kwargs)
+
+        title = ctk.CTkLabel(master=self, text="Input user's PIN", font=("Didot", 26))
+        title.pack(pady=5, padx=10, fill="both", expand=False)
+
+        box = ctk.CTkFrame(master=self)
+        box.pack(expand=True)
+
+        pin_label = ctk.CTkLabel(master=box, text="PIN:")
+        pin_label.pack(expand=False)
+        
+        pin_entry = ctk.CTkEntry(master=box, width=400, height=50, justify='center', show="*")
+        pin_entry.pack(expand=False)
+
+        ok_button = ctk.CTkButton(master=box, text="Confirm", command=lambda: controller.aes_encrypt(pin_entry.get()))
+        ok_button.pack(pady=10, padx=20)
+
+        back_button = ctk.CTkButton(master=self, text="Cancel", command=lambda: controller.show_frame(HomePage))
+        back_button.pack(pady=10, padx=20)
+
+class AESDecryptInputPin(ctk.CTkFrame):
+    def __init__(self, master: any, controller, **kwargs):
+        super().__init__(master, **kwargs)
+
+        title = ctk.CTkLabel(master=self, text="Input user's PIN", font=("Didot", 26))
+        title.pack(pady=5, padx=10, fill="both", expand=False)
+
+        box = ctk.CTkFrame(master=self)
+        box.pack(expand=True)
+
+        pin_label = ctk.CTkLabel(master=box, text="PIN:")
+        pin_label.pack(expand=False)
+        
+        pin_entry = ctk.CTkEntry(master=box, width=400, height=50, justify='center', show="*")
+        pin_entry.pack(expand=False)
+
+        ok_button = ctk.CTkButton(master=box, text="Confirm", command=lambda: controller.aes_decrypt(pin_entry.get()))
         ok_button.pack(pady=10, padx=20)
 
         back_button = ctk.CTkButton(master=self, text="Cancel", command=lambda: controller.show_frame(HomePage))
@@ -288,6 +338,27 @@ class RSAEncryptSuccess(ctk.CTkFrame):
 
 
 class RSADecryptSuccess(ctk.CTkFrame):
+    def __init__(self, master: any, controller, **kwargs):
+        super().__init__(master, **kwargs)
+
+        title = ctk.CTkLabel(master=self, text="File has been decrypted", font=("Didot", 26))
+        title.pack(pady=5, padx=10, fill="both", expand=False)
+
+        text = ctk.CTkLabel(master=self, text="Your file has been saved to the same location.")
+        text.pack(expand=False)
+
+class AESEncryptSuccess(ctk.CTkFrame):
+    def __init__(self, master: any, controller, **kwargs):
+        super().__init__(master, **kwargs)
+
+        title = ctk.CTkLabel(master=self, text="File has been encrypted", font=("Didot", 26))
+        title.pack(pady=5, padx=10, fill="both", expand=False)
+
+        text = ctk.CTkLabel(master=self, text="Use the same key if you wish to decrypt it.")
+        text.pack(expand=False)
+
+
+class AESDecryptSuccess(ctk.CTkFrame):
     def __init__(self, master: any, controller, **kwargs):
         super().__init__(master, **kwargs)
 

@@ -3,6 +3,7 @@ from Crypto import Random
 from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
+import hashlib
 
 
 def aes_pad(data, block_size):
@@ -12,10 +13,15 @@ def aes_pad(data, block_size):
 
 
 def aes_encrypt(aes_key, file_path):
+    aes_key = hashlib.sha256(aes_key.encode()).digest()
+
+    with open(file_path, "rb") as file: 
+        data = file.read()
+        
     with open(file_path, "wb") as file:
         iv = Random.new().read(AES.block_size)
         cipher = AES.new(aes_key, AES.MODE_CBC, iv)
-        ciphertext = cipher.encrypt(aes_pad(file, AES.block_size))
+        ciphertext = cipher.encrypt(aes_pad(data, AES.block_size))
         file.write(base64.b64encode(iv + ciphertext))
 
 

@@ -71,6 +71,32 @@ class AppController(ctk.CTk, TkinterDnD.DnDWrapper):
 
         self.show_frame(views.RSADecryptSuccess)
         self.after(2000, lambda: self.show_frame(views.HomePage))
+
+    def aes_encrypt(self, pin):
+        file_valid = False
+        
+        while not file_valid:
+            file_path = ctk.filedialog.askopenfilename(initialdir="/", title="Pick a file to encrypt")
+            if os.path.isfile(file_path):
+                file_valid = True
+
+        encryptor.aes_encrypt(pin, file_path)
+
+        self.show_frame(views.AESEncryptSuccess)
+        self.after(2000, lambda: self.show_frame(views.HomePage))
+
+    def aes_decrypt(self, pin):
+        file_valid = False
+        
+        while not file_valid:
+            file_path = ctk.filedialog.askopenfilename(initialdir="/", title="Pick a file to decrypt")
+            if os.path.isfile(file_path):
+                file_valid = True
+
+        decryptor.aes_decrypt(pin, file_path)
+
+        self.show_frame(views.AESDecryptSuccess)
+        self.after(2000, lambda: self.show_frame(views.HomePage))
     
     def sign_file(self):
         self.show_frame(views.InsertPendrive)
@@ -246,7 +272,9 @@ class AppController(ctk.CTk, TkinterDnD.DnDWrapper):
                   views.HomePage, views.InsertPendrive,
                   views.Temp, views.InputPin, views.SignSuccess,
                   views.Listening, views.SignatureVerified, views.VerificationFailed,
-                  views.RSADecryptSuccess, views.RSAEncryptSuccess, views.RSADecryptInputPin):
+                  views.RSADecryptSuccess, views.RSAEncryptSuccess, views.RSADecryptInputPin,
+                  views.AESEncryptInputPin, views.AESDecryptInputPin,
+                  views.AESEncryptSuccess, views.AESDecryptSuccess):
             frame = F(master=self, controller=self)
             self.frames[F] = frame
         self.current_frame = self.frames[views.MainMenu]
