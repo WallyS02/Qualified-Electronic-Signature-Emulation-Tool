@@ -148,7 +148,7 @@ class HomePage(ctk.CTkFrame):
         sign_button = ctk.CTkButton(master=box, text="Sign a file", command=lambda: controller.sign_file())
         sign_button.pack(pady=10, padx=20)
 
-        verify_button = ctk.CTkButton(master=box, text="Verify signature", command=lambda: controller.temp())
+        verify_button = ctk.CTkButton(master=box, text="Verify signature", command=lambda: controller.verify_signature())
         verify_button.pack(pady=10, padx=20)
 
         back_button = ctk.CTkButton(master=box, text="Log out", command=lambda: controller.show_frame(MainMenu))
@@ -200,7 +200,52 @@ class SignSuccess(ctk.CTkFrame):
         text = ctk.CTkLabel(master=self, text="Signed file has been saved in the same directory")
         text.pack(expand=False)
 
+        box = ctk.CTkFrame(master=self)
+        box.pack(expand=True)
 
+        send_button = ctk.CTkButton(master=box, text="Send to another user", command=lambda: controller.send_signed())
+        send_button.pack(pady=10, padx=20)
+
+        back_button = ctk.CTkButton(master=self, text="Home", command=lambda: controller.show_frame(HomePage))
+        back_button.pack(pady=10, padx=20)
+
+class Listening(ctk.CTkFrame):
+    def __init__(self, master: any, controller, **kwargs):
+        super().__init__(master, **kwargs)
+
+        title = ctk.CTkLabel(master=self, text="Listening for files...", font=("Didot", 26))
+        title.pack(pady=5, padx=10, fill="both", expand=False)
+
+        text = ctk.CTkLabel(master=self, text="Waiting to receive a file")
+        text.pack(expand=False)
+
+class SignatureVerified(ctk.CTkFrame):
+    def __init__(self, master: any, controller, **kwargs):
+        super().__init__(master, **kwargs)
+
+        title = ctk.CTkLabel(master=self, text="Signature verified", font=("Didot", 26))
+        title.pack(pady=5, padx=10, fill="both", expand=False)
+
+        text = ctk.CTkLabel(master=self, text="Received file is signed correctly")
+        text.pack(expand=False)
+
+        back_button = ctk.CTkButton(master=self, text="Home", command=lambda: controller.show_frame(HomePage))
+        back_button.pack(pady=10, padx=20)
+
+
+
+class VerificationFailed(ctk.CTkFrame):
+    def __init__(self, master: any, controller, **kwargs):
+        super().__init__(master, **kwargs)
+
+        title = ctk.CTkLabel(master=self, text="Verification failed", font=("Didot", 26))
+        title.pack(pady=5, padx=10, fill="both", expand=False)
+
+        text = ctk.CTkLabel(master=self, text="Signature doesn't match file and/or the public key")
+        text.pack(expand=False)
+
+        back_button = ctk.CTkButton(master=self, text="Home", command=lambda: controller.show_frame(HomePage))
+        back_button.pack(pady=10, padx=20)
 
 class Temp(ctk.CTkFrame):
     def __init__(self, master: any, controller, **kwargs):

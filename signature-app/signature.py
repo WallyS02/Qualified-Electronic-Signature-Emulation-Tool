@@ -36,7 +36,7 @@ def create_xml_signature(document_path, user_info, private_key_path, aes_key):
     ET.SubElement(root, "Signature").text = generate_signature(document_path, private_key_path, aes_key).hex()
 
     tree = ET.ElementTree(root)
-    ET.indent(tree, space="\t", level=0)
+    #ET.indent(tree, space="\t", level=0)
 
     xml_file_path = os.path.splitext(document_path)[0] + "_signature.xml"
     tree.write(xml_file_path, encoding='utf-8', xml_declaration=True)
