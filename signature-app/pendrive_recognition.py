@@ -26,4 +26,4 @@ def detect_usb_insertion():
         time.sleep(0.25)
 
 
-detect_usb_insertion()
+#detect_usb_insertion()

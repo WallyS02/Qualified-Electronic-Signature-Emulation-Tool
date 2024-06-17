@@ -3,18 +3,46 @@ import customtkinter as ctk
 from tkdnd import TkinterDnD
 import views 
 from PIL import Image, ImageTk
+import os
 
 import user_management
+import pendrive_recognition
+import signature
 
 class AppController(ctk.CTk, TkinterDnD.DnDWrapper):
     WINDOW_WIDTH = 500
     WINDOW_HEIGHT = 500
+    drive_name = None
+    username = None
+
+    def sign_file(self):
+        self.show_frame(views.InsertPendrive)
+        self.drive_name = pendrive_recognition.detect_usb_insertion()
+        self.show_frame(views.InputPin)
+
+    def save_signed(self, pin):
+        file_valid = False
+        
+        while not file_valid:
+            file_path = ctk.filedialog.askopenfilename(initialdir="/", title="Pick a file to sign")
+            if os.path.isfile(file_path):
+                file_valid = True
+        
+        user_data = user_management.get_name_and_surname(self.username)
+
+        private_key_path = os.path.join(self.drive_name, 'private_key')
+
+        signature.create_xml_signature(file_path, user_data, private_key_path, pin)
+
+        self.show_frame(views.SignSuccess)
+        self.after(2000, lambda: self.show_frame(views.HomePage))
 
     def temp(self):
         pass
     
     def login(self, username, password):
         if user_management.login(username, password):
+            self.username = username
             self.show_frame(views.LoginSuccess)
             self.after(2000, lambda: self.show_frame(views.HomePage))
         else:
@@ -59,7 +87,8 @@ class AppController(ctk.CTk, TkinterDnD.DnDWrapper):
         for F in (views.MainMenu, views.RegisterPage, views.LoginPage,
                   views.LoginSuccess, views.LoginFail,
                   views.RegisterSuccess, views.RegisterFail,
-                  views.HomePage):
+                  views.HomePage, views.InsertPendrive,
+                  views.Temp, views.InputPin, views.SignSuccess):
             frame = F(master=self, controller=self)
             self.frames[F] = frame
         self.current_frame = self.frames[views.MainMenu]
