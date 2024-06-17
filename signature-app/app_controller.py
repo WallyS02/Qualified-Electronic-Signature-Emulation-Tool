@@ -14,6 +14,8 @@ import pendrive_recognition
 import signature
 import communication
 import verification
+import encryptor
+import decryptor
 
 from communication_config import HOST, PORT_A, PORT_B, FILE_SIZE_LIMIT
 
@@ -30,6 +32,46 @@ class AppController(ctk.CTk, TkinterDnD.DnDWrapper):
     signatures = []
     file_extensions = []
 
+    def rsa_encrypt(self):
+        file_valid = False
+        
+        while not file_valid:
+            file_path = ctk.filedialog.askopenfilename(initialdir="/", title="Pick a file to encrypt")
+            if os.path.isfile(file_path):
+                file_valid = True
+
+        key_valid = False
+        
+        while not key_valid:
+            key_path = ctk.filedialog.askopenfilename(initialdir="/", title="Select a public key file", filetypes=[("Public key", ".pem")])
+            if os.path.isfile(key_path):
+                key_valid = True
+
+        encryptor.rsa_encrypt(key_path, file_path)
+
+        self.show_frame(views.RSAEncryptSuccess)
+        self.after(2000, lambda: self.show_frame(views.HomePage))
+
+    def rsa_decrypt(self, pin):
+        file_valid = False
+        
+        while not file_valid:
+            file_path = ctk.filedialog.askopenfilename(initialdir="/", title="Pick a file to decrypt")
+            if os.path.isfile(file_path):
+                file_valid = True
+
+        key_valid = False
+        
+        while not key_valid:
+            key_path = ctk.filedialog.askopenfilename(initialdir="/", title="Select a private key file", filetypes=[("Private key", "")])
+            if os.path.isfile(key_path):
+                key_valid = True
+
+        decryptor.rsa_decrypt(pin, key_path, file_path)
+
+        self.show_frame(views.RSADecryptSuccess)
+        self.after(2000, lambda: self.show_frame(views.HomePage))
+    
     def sign_file(self):
         self.show_frame(views.InsertPendrive)
         self.drive_name = pendrive_recognition.detect_usb_insertion()
@@ -203,7 +245,8 @@ class AppController(ctk.CTk, TkinterDnD.DnDWrapper):
                   views.RegisterSuccess, views.RegisterFail,
                   views.HomePage, views.InsertPendrive,
                   views.Temp, views.InputPin, views.SignSuccess,
-                  views.Listening, views.SignatureVerified, views.VerificationFailed):
+                  views.Listening, views.SignatureVerified, views.VerificationFailed,
+                  views.RSADecryptSuccess, views.RSAEncryptSuccess, views.RSADecryptInputPin):
             frame = F(master=self, controller=self)
             self.frames[F] = frame
         self.current_frame = self.frames[views.MainMenu]
