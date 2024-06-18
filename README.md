@@ -6,5 +6,5 @@
 - [x] implement file sending
 - [x] implement signature veryfing
 - [x] add encryption and decryption of files
-- [ ] prepare GUI
-- [ ] prepare report
+- [x] prepare GUI
+- [x] prepare report
